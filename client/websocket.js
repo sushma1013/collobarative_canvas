@@ -19,13 +19,13 @@ export function setupSocketHandlers() {
     strokes.forEach(drawStroke);
   });
 
-  // 👻 CURSORS
+  //CURSORS
   socket.on("cursor_update", data => {
     cursors[data.userId] = data;
     drawCursors(cursors);
   });
 
-  // 👥 USERS
+  //  USERS
   socket.on("users_update", users => {
     const panel = document.getElementById("usersPanel");
     panel.innerHTML = "<b>Online Users</b><br/>";
