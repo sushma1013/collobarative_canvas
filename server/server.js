@@ -10,7 +10,7 @@ const path = require("path");
 app.use(express.static(path.join(__dirname, "../client")));
 
 const room = {
-  pages: [[]],        // pages[pageIndex] = strokes[]
+  pages: [[]],          // 👈 page 0 ALWAYS exists
   users: {},
   redoStack: {}
 };
@@ -28,15 +28,40 @@ io.on("connection", socket => {
   socket.emit("page_data", room.pages[0]);
 
   // Live drawing
-  socket.on("drawing_step", segment => {
-    socket.broadcast.emit("stroke_draw", segment);
-  });
+ socket.on("drawing_step", (segment) => {
 
-  socket.on("drawing_end", stroke => {
-    stroke.userId = socket.id;
-    room.pages[stroke.page].push(stroke);
-    room.redoStack[socket.id] = [];
-  });
+  if (
+    typeof segment.page !== "number" ||
+    segment.page < 0 ||
+    !room.pages[segment.page]
+  ) {
+    segment.page = 0;
+  }
+
+  socket.broadcast.emit("stroke_draw", segment);
+});
+
+socket.on("drawing_end", (stroke) => {
+  stroke.userId = socket.id;
+
+  // 🔒 HARD SAFETY (CRITICAL)
+  if (
+    typeof stroke.page !== "number" ||
+    stroke.page < 0
+  ) {
+    stroke.page = 0;
+  }
+
+  // 🔒 AUTO-CREATE PAGE IF MISSING
+  if (!room.pages[stroke.page]) {
+    room.pages[stroke.page] = [];
+  }
+
+  room.pages[stroke.page].push(stroke);
+
+  // Clear redo stack on new action
+  room.redoStack[socket.id] = [];
+});
 
   // Clear page
   socket.on("clear_page", pageIndex => {
