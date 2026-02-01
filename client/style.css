@@ -1,0 +1,142 @@
+/* =====================
+   CSS VARIABLES (THEME)
+===================== */
+:root {
+  --bg: #f5f6fa;
+  --fg: #1e1e1e;
+  --panel: #ffffff;
+  --border: #e0e0e0;
+  --btn-bg: #f1f3f5;
+  --btn-hover: #e4e6eb;
+  --btn-active: #d0d3d8;
+  --accent: #4f46e5;
+}
+
+body.dark {
+  --bg: #0f172a;
+  --fg: #f8fafc;
+  --panel: #1e293b;
+  --border: #334155;
+  --btn-bg: #334155;
+  --btn-hover: #475569;
+  --btn-active: #64748b;
+  --accent: #818cf8;
+}
+
+/* =====================
+   BASE
+===================== */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#cursor-canvas {
+  pointer-events: none;
+}
+
+/* =====================
+   TOOLBAR
+===================== */
+.toolbar {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 10px;
+  border-radius: 12px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* =====================
+   BUTTONS
+===================== */
+.toolbar button {
+  background: var(--btn-bg);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toolbar button:hover {
+  background: var(--btn-hover);
+}
+
+.toolbar button:active {
+  background: var(--btn-active);
+  transform: scale(0.96);
+}
+
+/* Accent buttons (Undo / Redo) */
+#undoBtn,
+#redoBtn {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Theme button */
+#themeBtn {
+  font-size: 16px;
+}
+
+/* =====================
+   INPUTS
+===================== */
+.toolbar input[type="color"] {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.toolbar input[type="range"] {
+  width: 100px;
+}
+
+/* =====================
+   USERS PANEL
+===================== */
+#usersPanel {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 13px;
+  min-width: 140px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+#usersPanel b {
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* User items */
+#usersPanel div {
+  margin-bottom: 4px;
+}
